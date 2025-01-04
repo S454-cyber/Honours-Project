@@ -7,4 +7,4 @@ xTrain = xTrain.reshape(-1, 1)
 
 yValues = [2*i + 1 for i in xValues]
 yTrain = np.array(yValues, dtype=np.float32)
-yTrain = yTrain.reshapre(-1, 1)
+yTrain = yTrain.reshape(-1, 1)
