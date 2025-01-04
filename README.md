@@ -1,0 +1,1 @@
+A repository for my honours project "Machine learning based anomaly detection through log file analysis". This also contains code files that are used to practice and learning how the implementation of algorithms, such as a linear regression model, are implemented into PyTorch as well as how they function.
