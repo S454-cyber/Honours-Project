@@ -10,4 +10,4 @@ yTrain = np.array(yValues, dtype=np.float32)
 yTrain = yTrain.reshape(-1, 1)
 
 #print(xTrain)
-print (yTrain)
+#print (yTrain)
