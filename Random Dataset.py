@@ -10,3 +10,4 @@ xValues = xValues.reshape(-1, 1)
 yValues = 46 + 2 * xValues.flatten()
 
 print (yValues)
+print (xValues)
