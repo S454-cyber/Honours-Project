@@ -24,6 +24,7 @@ readTrainFile = pd.read_csv ("KDDTrain+.txt")
 #New variable name of df has been given.
 organisedFile = readTrainFile.copy()
 #ADJUSTING COLUMNS
+#Giving names to each column of the KDD datset to make it easier to identify value category.
 columns = (['duration'
             ,'protocolType'
             ,'service'
@@ -67,12 +68,15 @@ columns = (['duration'
             ,'destinationHostSrvRerrorRate'
             ,'attack'
             ,'level'])
+#Assigning the labels of each column to the ones defined above to the KDD dataset.
 organisedFile.columns = columns
 #Displaying a section of the organised CSV file as a table to the screen. 
 #Displays 5 rows by default as no number of rows to display has been specified.
 organisedFile.head()
 #INSIGHTS
+#Displaying information about the KDD data frame to the screen.
 organisedFile.info()
+#Displaying descriptions of the transposed (T) KDD data fram to the screen.
 organisedFile.describe().T
 
 #DATA CLEANING
