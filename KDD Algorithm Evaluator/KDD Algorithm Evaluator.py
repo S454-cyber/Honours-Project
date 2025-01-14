@@ -72,15 +72,16 @@ columns = (['duration'
 organisedFile.columns = columns
 #Displaying a section of the organised CSV file as a table to the screen. 
 #Displays 5 rows by default as no number of rows to display has been specified.
-organisedFile.head()
+organisedFile.head(10)
 #INSIGHTS
-#Displaying information about the KDD data frame to the screen.
+#Displaying information about the KDD data frame to the screen using the pandas library.
 organisedFile.info()
-#Displaying descriptions of the transposed (T) KDD data fram to the screen.
+#Displaying descriptions of the transposed (T) KDD data frame to the screen using the pandas library.
 organisedFile.describe().T
 
 #DATA CLEANING
 #NULL VALUES
+organisedFile.isnull().sum()
 #DUPLCIATES
 #OUTLIERS
 #ATTACK OR NON ATTACK CLASSIFICATION
