@@ -81,8 +81,26 @@ organisedFile.describe().T
 
 #DATA CLEANING
 #NULL VALUES
+#Fidning the total sum of data points where the data value is null/empty.
 organisedFile.isnull().sum()
+#Creating a helper function which will allow for deeper analysis of the datapoints.
+def uniqueValues(organisedFile, columns):
+    #Displays unique values and their counts for specific columns within the data frame to the screen.
+    for columnName in columns:
+        print(f"column: {columnName}\n{'-'*30}")
+        uniqueValues = organisedFile[columnName].unique()
+        valueCounts = organisedFile[columnName].value_counts()
+        print(f"Unique Values ({len(uniqueValues)}): {uniqueValues}\n")
+        print(f"Value Counts:\n{valueCounts}\n{'='*40}\n")
+    
+catFeatures = organisedFile.select_dtypes(include='object').columns
+uniqueValues(organisedFile, catFeatures)
 #DUPLCIATES
+organisedFile.duplicated().sum()
 #OUTLIERS
+organisedFile.shape
+plt.figure(figsize=(20,40))
+organisedFile.plot(kind='box', subplots=True, layout=(8,5), figsize=(20,40))
+plt.show()
 #ATTACK OR NON ATTACK CLASSIFICATION
 
