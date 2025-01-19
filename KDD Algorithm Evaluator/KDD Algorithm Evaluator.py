@@ -87,20 +87,40 @@ organisedFile.isnull().sum()
 def uniqueValues(organisedFile, columns):
     #Displays unique values and their counts for specific columns within the data frame to the screen.
     for columnName in columns:
+        #Displaying the column name the current data is related to to the screen.
         print(f"column: {columnName}\n{'-'*30}")
+        #Sorting unique values by their columns name.
         uniqueValues = organisedFile[columnName].unique()
+        #Sorting the count of a specific value by its column name.
         valueCounts = organisedFile[columnName].value_counts()
+        #Displaying all the unique values of a specific column to the screen.
         print(f"Unique Values ({len(uniqueValues)}): {uniqueValues}\n")
+        #Displaying the total count of the unique values to a specific column to the screen.
         print(f"Value Counts:\n{valueCounts}\n{'='*40}\n")
-    
+
+#Displaying the unique features of the data types as well as including the object of the column to the screen.
 catFeatures = organisedFile.select_dtypes(include='object').columns
+#Unique values to have the attributes of organisedFile and catFeatures.
 uniqueValues(organisedFile, catFeatures)
 #DUPLCIATES
+#Calculating the total sum of duplicated entries.
 organisedFile.duplicated().sum()
 #OUTLIERS
+#Obtaining the current shape of the array.
 organisedFile.shape
+#Specifyign the size of the figure that is to be displayed to the screen. This will display a figure size of 2000x4000 pixels.
 plt.figure(figsize=(20,40))
+#The data will be displayed as a box plot graph with a layout of 800x500 pixels and a figure size of 2000x4000 pixels.
 organisedFile.plot(kind='box', subplots=True, layout=(8,5), figsize=(20,40))
+#Displaying the plotted graphs to the screen.
 plt.show()
 #ATTACK OR NON ATTACK CLASSIFICATION
+attackClassifier = []
+for i in organisedFile.attack:
+    if i == 'normal':
+        attackClassifier.append("Normal")
+    else:
+        attackClassifier.append("Attack")
+organisedFile['Attack'] = attackClassifier
 
+organisedFile['Attack'].unique()
