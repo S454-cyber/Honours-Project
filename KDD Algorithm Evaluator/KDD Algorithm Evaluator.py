@@ -124,3 +124,78 @@ for i in organisedFile.attack:
 organisedFile['Attack'] = attackClassifier
 
 organisedFile['Attack'].unique()
+
+#EDA - VISUALIZATION
+#Used to provide visual insights on the dataset.
+organisedFile.hist(bins = 43, figsize = (20,30));
+#PROTOCOL TYPE
+plt.figure(figsize = (16,4))
+sns.countplot(x = 'attack', data = organisedFile, hue = 'protocolType')
+plt.xticks(rotation = 45)
+plt.title('Attack Counts over Protocol Type', fontdict = {'fontsize':16})
+plt.show
+
+organisedFile["protocolType"].value_counts(normalize = True)
+#SERVICE USED GENERAL
+#Adjusted figure size
+plt.figure(figsize = (20,8))
+ax = sns.countplot(x = 'service', data = organisedFile)
+#Rotated labels.
+ax.set_xticklabels(ax.get_xticklabels(), rotation = 45, ha = 'right')
+plt.xlabel('Service')
+plt.ylabel('Count')
+plt.title('Count of Service')
+plt.grid(True)
+plt.show()
+#SERVICE USED EFFECT ON ATTACKS
+#Adjusted figure size
+plt.figure(figsize = (20,8))
+ax = sns.countplot(x = 'service', hue = 'attack', data = organisedFile)
+#Rotated labels.
+ax.set_xticklabels(ax.get_xticklabels(), rotation = 45, ha = 'right')
+plt.xlabel('service')
+plt.ylabel('Count')
+plt.title('Distribution of Attacks by Service')
+plt.legend(title = 'Attack Type')
+plt.grid(True)
+plt.show()
+#KERNEL DESTINY ESTIMATE (KDE) PLOT OF DURATION BY FLAG
+plt.figure(figsize = (12,8))
+sns.displot(
+    data = organisedFile,
+    x = "duration",
+    hue = "flag",
+    kind = "kde",
+    height = 6,
+    multiple = "fill",
+    clip = (0,None),
+    palette = "ch:rot=-.25, hue = 1, light = 0.75",
+)
+plt.title('Kernal Density Estimate (KDE) Plot of Duration by Flag')
+plt.grid(True)
+plt.show()
+#DISTRIBUTION OF ATTACK TYPES BY GUEST LOGIN
+plt.figure(figsize = (10,6))
+sns.countplot(x = 'isGuestLogin', hue = 'attack', data = organisedFile, palette = 'Set2')
+plt.xlabel('Is Guest Login')
+plt.ylabel('Count')
+plt.title('Distribution of Attack Type by Guest Login')
+plt.legend(title = 'Attack Type')
+plt.grid(True)
+plt.show()
+
+#PREPROCESSING
+#ENCODING
+catFeatures = organisedFile.select_dtypes(include = 'object').columns
+catFeatures
+#TRAIN-TEST-SPLIT
+#FEATURE ENGINEERING
+#FEATURE SELECTION
+#SCALNG
+
+#MODEL BUILD
+#HYPERPARAMETER TUNING
+#FINAL MODEL
+#EVALUATION
+
+#FEATURE IMPORTANCE
