@@ -1,4 +1,4 @@
-#Source Used: https://www.kaggle.com/code/eneskosar19/intrusion-detection-system-nsl-kdd#6.3-EVALUATION
+#Source Used to Build Foundation of Code: https://www.kaggle.com/code/eneskosar19/intrusion-detection-system-nsl-kdd#6.3-EVALUATION
 
 #IMPORTING LIBRARIES
 #Importing the numpy library (adding support for large, multi-dimensional arrarys and matricies).
@@ -108,25 +108,32 @@ organisedFile.duplicated().sum()
 #OUTLIERS
 #Obtaining the current shape of the array.
 organisedFile.shape
-#Specifyign the size of the figure that is to be displayed to the screen. This will display a figure size of 2000x4000 pixels.
+#Specifyign the size of the figure that is to be displayed to the screen. This will display a figure size of 20x40 inches (Width x Height).
 plt.figure(figsize=(20,40))
-#The data will be displayed as a box plot graph with a layout of 800x500 pixels and a figure size of 2000x4000 pixels.
+#The data will be displayed as a box plot graph with a layout of 800x500 pixels and a figure size of 20x40 inches (Width x Height).
 organisedFile.plot(kind='box', subplots=True, layout=(8,5), figsize=(20,40))
 #Displaying the plotted graphs to the screen.
 plt.show()
 #ATTACK OR NON ATTACK CLASSIFICATION
+#Creating a list with the name attackClassifier.
 attackClassifier = []
+#A for loop that analyses event within the dataset.
 for i in organisedFile.attack:
+    #If the event is considered normal, it will append the keyword 'Normal' to the list.
     if i == 'normal':
         attackClassifier.append("Normal")
     else:
+        #If the event is considered an attack, it will append the keyword 'Attack' to the list.
         attackClassifier.append("Attack")
+        #Updating the attack column within the organisedFile data frame with the values of the attackClassifier variable.
 organisedFile['Attack'] = attackClassifier
 
+#Retrieving the unique values that are within the 'Attack' column, within the organisedFile data frame.
 organisedFile['Attack'].unique()
 
 #EDA - VISUALIZATION
 #Used to provide visual insights on the dataset.
+#Returns the binary version of 43 and is displayed in a figure that is 20x30 inches (Width x Height).
 organisedFile.hist(bins = 43, figsize = (20,30));
 #PROTOCOL TYPE
 plt.figure(figsize = (16,4))
