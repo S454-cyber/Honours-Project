@@ -120,10 +120,10 @@ attackClassifier = []
 #A for loop that analyses event within the dataset.
 for i in organisedFile.attack:
     #If the event is considered normal, it will append the keyword 'Normal' to the list.
+    #Else, if the event is considered an attack, it will append the keyword 'Attack' to the list.
     if i == 'normal':
         attackClassifier.append("Normal")
     else:
-        #If the event is considered an attack, it will append the keyword 'Attack' to the list.
         attackClassifier.append("Attack")
         #Updating the attack column within the organisedFile data frame with the values of the attackClassifier variable.
 organisedFile['Attack'] = attackClassifier
@@ -138,9 +138,12 @@ organisedFile.hist(bins = 43, figsize = (20,30));
 #PROTOCOL TYPE
 #Displays a figure that is 16x4 inches (Width x Height).
 plt.figure(figsize = (16,4))
+#Countplot is used to show the count of observation from datasets labelled as 'attack' observed in the KDD data set. The x-axis is labelled as 'attack'.
+#Data distinction is sperated by the 'protocolType' column.
 sns.countplot(x = 'attack', data = organisedFile, hue = 'protocolType')
+#Rotating the location of the x-axis by 45 degrees.
 plt.xticks(rotation = 45)
-#Setting the title of teh figure to 'Attack Counts over Protocol Type', with a fontsize of 16.
+#Setting the title of the figure to 'Attack Counts over Protocol Type', with a fontsize of 16.
 plt.title('Attack Counts over Protocol Type', fontdict = {'fontsize':16})
 #Displaying the figure to the screen
 plt.show()
@@ -149,6 +152,7 @@ organisedFile["protocolType"].value_counts(normalize = True)
 #SERVICE USED GENERAL
 #Displays a figure that is 20x8 inches (Width x Height).
 plt.figure(figsize = (20,8))
+#Countplot is used to show the count of observation of data labelled as 'service' observed in the KDD data set. The x-axis is labelled as 'service'.
 ax = sns.countplot(x = 'service', data = organisedFile)
 #Rotated labels.
 ax.set_xticklabels(ax.get_xticklabels(), rotation = 45, ha = 'right')
@@ -156,6 +160,7 @@ ax.set_xticklabels(ax.get_xticklabels(), rotation = 45, ha = 'right')
 plt.xlabel('Service')
 #Setting the y-axis label as 'Count'
 plt.ylabel('Count')
+#Setting the title of the figure to 'Count of Service'
 plt.title('Count of Service')
 plt.grid(True)
 #Displaying the figure to the screen
@@ -170,12 +175,17 @@ plt.xlabel('service')
 plt.ylabel('Count')
 plt.title('Distribution of Attacks by Service')
 plt.legend(title = 'Attack Type')
+#Displays a grid line on every data point.
 plt.grid(True)
 #Displaying the figure to the screen
 plt.show()
 #KERNEL DESTINY ESTIMATE (KDE) PLOT OF DURATION BY FLAG
 #Displays a figure that is 12x8 inches (Width x Height).
 plt.figure(figsize = (12,8))
+#The displot function is used to visualise the univariate and bivariate distribution of data as a Kernal Destiny Estimate (KDE) plot.
+#The duration coumn is used as the variable on the x-axis.
+#The flags column is used to determine the colour of the plot elements.
+
 sns.displot(
     data = organisedFile,
     x = "duration",
