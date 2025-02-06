@@ -19,7 +19,7 @@ plt.rcParams ["figure.figsize"] = (10,6)
 #READING DATASET
 #Reading the CSV file named "KDDTrain+.txt" stored locally in the same location as this python file using pandas.
 #Variable name df_0 has been given.
-readTrainFile = pd.read_csv ("KDDTrain+.txt") 
+readTrainFile = pd.read_csv ('KDDTrain+.txt') 
 #Variable df_0 is using the .copy() method to create copies of the "KDDTrain+.txt" file.
 #New variable name of df has been given.
 organisedFile = readTrainFile.copy()
@@ -122,14 +122,14 @@ for i in organisedFile.attack:
     #If the event is considered normal, it will append the keyword 'Normal' to the list.
     #Else, if the event is considered an attack, it will append the keyword 'Attack' to the list.
     if i == 'normal':
-        attackClassifier.append("Normal")
+        attackClassifier.append("normal")
     else:
-        attackClassifier.append("Attack")
+        attackClassifier.append("attack")
         #Updating the attack column within the organisedFile data frame with the values of the attackClassifier variable.
-organisedFile['Attack'] = attackClassifier
+organisedFile['attack'] = attackClassifier
 
 #Retrieving the unique values that are within the 'Attack' column, within the organisedFile data frame.
-organisedFile['Attack'].unique()
+organisedFile['attack'].unique()
 
 #EDA - VISUALIZATION
 #Used to provide visual insights on the dataset.
@@ -149,13 +149,14 @@ plt.title('Attack Counts over Protocol Type', fontdict = {'fontsize':16})
 plt.show()
 
 organisedFile["protocolType"].value_counts(normalize = True)
+
 #SERVICE USED GENERAL
 #Displays a figure that is 20x8 inches (Width x Height).
 plt.figure(figsize = (20,8))
 #Countplot is used to show the count of observation of data labelled as 'service' observed in the KDD data set. The x-axis is labelled as 'service'.
 ax = sns.countplot(x = 'service', data = organisedFile)
 #Rotated labels.
-ax.set_xticklabels(ax.get_xticklabels(), rotation = 45, ha = 'right')
+ax.set_xticklabels(ax.get_xticklabels(), rotation = 45, ha = "right")
 #Setting the x-axis label as 'Service'
 plt.xlabel('Service')
 #Setting the y-axis label as 'Count'
@@ -220,11 +221,52 @@ plt.show()
 #ENCODING
 catFeatures = organisedFile.select_dtypes(include = 'object').columns
 catFeatures
-#TRAIN-TEST-SPLIT
-#FEATURE ENGINEERING
-#FEATURE SELECTION
-#SCALNG
 
+from sklearn import preprocessing
+labelEncoder = preprocessing.LabelEncoder()
+clm = ['protocolType', 'service', 'flag', 'attack']
+for x in clm:
+    organisedFile[x] = labelEncoder.fit_transform(organisedFile[x])
+
+#TRAIN-TEST-SPLIT
+from sklearn.model_selection import train_test_split
+
+x = organisedFile.drop(["attack"], axis=1)
+y = organisedFile["attack"]
+
+xTrain, xTest, yTrain, yTest = train_test_split(x, y, test_size=0.1, random_state=43)
+
+trainIndex = xTrain.columns
+trainIndex
+
+#FEATURE ENGINEERING
+from sklearn.feature_selection import mutual_info_classif
+mutalInfo = mutual_info_classif(xTrain, yTrain)
+mutalInfo = pd.Series(mutalInfo)
+mutalInfo.index = trainIndex
+mutalInfo.sort_values(ascending=False)
+
+mutalInfo.sort_values(ascending=False).plot.bar(figsize=(20, 5));
+#FEATURE SELECTION
+from sklearn.feature_selection import SelectKBest
+selectFeatures = SelectKBest(mutual_info_classif, k = 30)
+selectFeatures.fit(xTrain, yTrain)
+trainIndex[selectFeatures.get_support()]
+
+#Select top features to be used for training
+#columns = ['','','','','','','','','','','','','','','']
+
+xTrain = xTrain[columns]
+yTrain = yTrain[columns]
+
+#SCALNG
+from sklearn.preprocessing import StandardScaler
+scaler = StandardScaler()
+
+xTrain = scaler.fit_transform(xTrain)
+yTrain = scaler.fit_transform(xTest)
+
+#(Add algorithms in project)
 #MODEL BUILD
 #HYPERPARAMETER TUNING
 #FINAL MODEL
