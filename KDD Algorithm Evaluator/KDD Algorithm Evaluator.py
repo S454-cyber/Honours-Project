@@ -247,6 +247,7 @@ mutalInfo.index = trainIndex
 mutalInfo.sort_values(ascending=False)
 
 mutalInfo.sort_values(ascending=False).plot.bar(figsize=(20, 5));
+
 #FEATURE SELECTION
 from sklearn.feature_selection import SelectKBest
 selectFeatures = SelectKBest(mutual_info_classif, k = 30)
@@ -287,8 +288,13 @@ from sklearn.linear_model import LogisticRegression
 logisticModel = LogisticRegression(random_state = 42)
 logistic = logisticModel.fit(xTrain, yTrain)
 
-evaluationMetric(logisticModel, xTrain, yTrain, xTest, yTrain)
+evaluationMetric(logisticModel, xTrain, yTrain, xTest, yTest)
+
 #Support Vector Machine
+from sklearn import svm
+supportVectorModel = svm.SVC()
+supportvector = supportVectorModel.fit (xTrain, yTrain)
+evaluationMetric(supportVectorModel, xTrain, yTrain, xTest, yTest)
 
 #Decision Tree
 
