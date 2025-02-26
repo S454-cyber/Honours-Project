@@ -32,7 +32,7 @@ columns = (['duration'
             ,'sourceByte'
             ,'destinationByte'
             ,'land'
-            ,'wrongFragemnt'
+            ,'wrongFragment'
             ,'urgent'
             ,'hot'
             ,'numberFailedLogins'
@@ -254,20 +254,60 @@ selectFeatures.fit(xTrain, yTrain)
 trainIndex[selectFeatures.get_support()]
 
 #Select top features to be used for training
-#columns = ['','','','','','','','','','','','','','','']
+columns = ['duration','protocolType','service','flag','sourceByte','destinationByte','wrongFragment','hot','loggedIn','numberCompromised','count','srvCount','serrorRate','srvSerrorRate','rerrorRate']
 
 xTrain = xTrain[columns]
-yTrain = yTrain[columns]
+xTest = xTest[columns]
 
 #SCALNG
 from sklearn.preprocessing import StandardScaler
 scaler = StandardScaler()
 
+#Transform is done to prevent data leakage
 xTrain = scaler.fit_transform(xTrain)
-yTrain = scaler.fit_transform(xTest)
+xTest = scaler.fit_transform(xTest)
 
-#(Add algorithms in project)
 #MODEL BUILD
+from sklearn.metrics import confusion_matrix, classification_report, accuracy_score, recall_score, precision_score, f1_score, roc_auc_score
+
+def evaluationMetric (model, xTrain, yTrain, xTest, yTest):
+    yTrainPrediction = model.predict(xTrain)
+    yPrediction = model.predict(xTest)
+
+    print ("Test Set")
+    print(confusion_matrix(yTest, yPrediction))
+    print(classification_report(yTest, yPrediction))
+    print()
+    print("Train Set")
+    print(confusion_matrix(yTrain, yTrainPrediction))
+    print(classification_report(yTrain, yTrainPrediction))
+
+#Logistic Regression
+from sklearn.linear_model import LogisticRegression
+logisticModel = LogisticRegression(random_state = 42)
+logistic = logisticModel.fit(xTrain, yTrain)
+
+evaluationMetric(logisticModel, xTrain, yTrain, xTest, yTrain)
+#Support Vector Machine
+
+#Decision Tree
+
+#K-Nearest Neighbour
+
+#Naive Bayes
+
+#K-Means
+
+#Principal Component Analysis
+
+#Logistic Regression
+
+#Singular Value Decomposition
+
+#Apriori
+
+#Isolation Forest
+
 #HYPERPARAMETER TUNING
 #FINAL MODEL
 #EVALUATION
