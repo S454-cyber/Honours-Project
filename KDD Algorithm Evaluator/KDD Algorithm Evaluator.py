@@ -294,6 +294,7 @@ evaluationMetric(logisticModel, xTrain, yTrain, xTest, yTest)
 from sklearn import svm
 supportVectorModel = svm.SVC()
 supportvector = supportVectorModel.fit (xTrain, yTrain)
+
 evaluationMetric(supportVectorModel, xTrain, yTrain, xTest, yTest)
 
 #Decision Tree
