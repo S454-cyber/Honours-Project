@@ -25,26 +25,26 @@ readTrainFile = pd.read_csv ('KDDTrain+.txt')
 organisedFile = readTrainFile.copy()
 #ADJUSTING COLUMNS
 #Giving names to each column of the KDD datset to make it easier to identify value category.
-columns = (['duration'
-            ,'protocolType'
-            ,'service'
-            ,'flag'
-            ,'sourceByte'
-            ,'destinationByte'
-            ,'land'
-            ,'wrongFragment'
-            ,'urgent'
-            ,'hot'
-            ,'numberFailedLogins'
-            ,'loggedIn'
-            ,'numberCompromised'
-            ,'rootShell'
-            ,'suAttempted'
-            ,'numRoot'
-            ,'numberFileCreations'
-            ,'numberShells'
-            ,'numberAccessFiles'
-            ,'numberOutboundCommands'
+columns = (['duration' #Duration of connection in seconds
+            ,'protocolType' #Protocol used for the connection (ICMP, UDP, TCP, etc.)
+            ,'service' #Destination port that is mapped to a service (HTTP, FTP, HTTPS, etc.)
+            ,'flag' #Normal or error status flag of connection
+            ,'sourceByte' #Number of data, in bytes, from source to destination
+            ,'destinationByte' #Number of data bytes from destination to source
+            ,'land' #'1' represents if the connection is from/to the same host/port; else '0'
+            ,'wrongFragment' #Number of 'wrong' fragments (values 0,1,3)
+            ,'urgent' #Number of urgent packets
+            ,'hot' #Number of 'hot' indicators (bro-ids feature)
+            ,'numberFailedLogins' #Number of failed login attempts
+            ,'loggedIn' #'1' indicates if sucessfully logged, else '0'
+            ,'numberCompromised' #Number of 'compromised' conditions
+            ,'rootShell' #'1' indicates if root shell is obtained, otherwise '0'
+            ,'suAttempted' #'1' indicates if "Super User Root" command was attempted, otherwise '0'
+            ,'numRoot' #Number of root acesses 
+            ,'numberFileCreations' #Number of file creation operations
+            ,'numberShells' #Number of shell prompts
+            ,'numberAccessFiles' #Number of operations on the acess control files
+            ,'numberOutboundCommands' #Number of outbound commands within an ftp session
             ,'isHostLogin'
             ,'isGuestLogin'
             ,'count'
