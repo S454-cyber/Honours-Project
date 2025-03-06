@@ -283,24 +283,38 @@ def evaluationMetric (model, xTrain, yTrain, xTest, yTest):
     print(confusion_matrix(yTrain, yTrainPrediction))
     print(classification_report(yTrain, yTrainPrediction))
 
-#Logistic Regression
+#Logistic Regression model
 from sklearn.linear_model import LogisticRegression
+print("Logistic Regression Model")
 logisticModel = LogisticRegression(random_state = 42)
 logistic = logisticModel.fit(xTrain, yTrain)
 
 evaluationMetric(logisticModel, xTrain, yTrain, xTest, yTest)
 
-#Support Vector Machine
+#Support Vector Machine model
 from sklearn import svm
+print("Support Vector Machine Model")
 supportVectorModel = svm.SVC()
 supportvector = supportVectorModel.fit (xTrain, yTrain)
 
 evaluationMetric(supportVectorModel, xTrain, yTrain, xTest, yTest)
 
-#Decision Tree
+#Decision Tree classification model
+from sklearn import tree
+print("Decsion Tree Classifier Model")
+decisionTree = tree.DecisionTreeClassifier()
+decisionTree = decisionTree.fit(xTrain, yTrain)
+
+evaluationMetric(decisionTree, xTrain, yTrain, xTest, yTest)
 
 #K-Nearest Neighbour
+from sklearn.neighbors import KNeighborsClassifier
+print("K-Nearest Neighbour Model")
+#5, 13 and 16
+kNearestNeighbour = KNeighborsClassifier (n_neighbors=16)
+kNearestNeighbour = kNearestNeighbour.fit(xTrain, yTrain)
 
+evaluationMetric(kNearestNeighbour, xTrain, yTrain, xTest, yTest)
 #Naive Bayes
 
 #K-Means
