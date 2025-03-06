@@ -317,6 +317,7 @@ kNearestNeighbour = kNearestNeighbour.fit(xTrain, yTrain)
 evaluationMetric(kNearestNeighbour, xTrain, yTrain, xTest, yTest)
 #Naive Bayes
 from sklearn.naive_bayes import GaussianNB
+print ("GNB Model")
 gaussianNaiveBayes = GaussianNB()
 gaussianNaiveBayes = gaussianNaiveBayes.fit(xTrain, yTrain)
 
