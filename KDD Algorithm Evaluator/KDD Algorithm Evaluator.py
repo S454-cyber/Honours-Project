@@ -340,13 +340,13 @@ evaluationMetric(kMeansModel, xTrain, yTrain, xTest, yTest)
 #evaluationMetric(principalComponent, xTrain, yTrain, xTest, yTest)
 
 #Singular Value Decomposition
-from sklearn.decomposition import TruncatedSVD
-print("SVD Model")
+#from sklearn.decomposition import TruncatedSVD
+#print("SVD Model")
 
-singularValueTrunc = TruncatedSVD(n_components=5, n_iter=7, random_state=42)
-singularValueTrunc = singularValueTrunc.fit(xTrain, yTrain)
+#singularValueTrunc = TruncatedSVD(n_components=5, n_iter=7, random_state=42)
+#singularValueTrunc = singularValueTrunc.fit(xTrain, yTrain)
 
-evaluationMetric(singularValueTrunc, xTrain, yTrain, xTest, yTest)
+#evaluationMetric(singularValueTrunc, xTrain, yTrain, xTest, yTest)
 
 #Apriori
 #TO DO
