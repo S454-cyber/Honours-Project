@@ -331,13 +331,13 @@ kMeansModel = KMeans(n_clusters=2, random_state=0, n_init="auto").fit(xTrain, yT
 
 evaluationMetric(kMeansModel, xTrain, yTrain, xTest, yTest)
 
-#Principal Component Analysis
-from sklearn.decomposition import PCA
-print("PCA Model")
-principalComponent = PCA(n_components=2)
-principalComponent = principalComponent.fit(xTrain, yTrain)
+#Principal Component Analysis - FIX
+#from sklearn.decomposition import PCA
+#print("PCA Model")
+#principalComponent = PCA(n_components=2, svd_solver="full")
+#principalComponent = principalComponent.fit(xTrain, yTrain)
 
-evaluationMetric(principalComponent, xTrain, yTrain, xTest, yTest)
+#evaluationMetric(principalComponent, xTrain, yTrain, xTest, yTest)
 
 #Singular Value Decomposition
 from sklearn.decomposition import TruncatedSVD
