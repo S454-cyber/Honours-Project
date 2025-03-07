@@ -354,7 +354,7 @@ evaluationMetric(kMeansModel, xTrain, yTrain, xTest, yTest)
 #Isolation Forest
 from sklearn.ensemble import IsolationForest
 print ("Isolation Forest Model")
-isolationForest = IsolationForest(random_state=0)
+isolationForest = IsolationForest(random_state=42)
 isolationForest = isolationForest.fit(xTrain, yTrain)
 
 evaluationMetric(isolationForest, xTrain, yTrain, xTest, yTest)
