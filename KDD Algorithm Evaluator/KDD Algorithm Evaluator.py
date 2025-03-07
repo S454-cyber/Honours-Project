@@ -311,10 +311,11 @@ evaluationMetric(decisionTree, xTrain, yTrain, xTest, yTest)
 from sklearn.neighbors import KNeighborsClassifier
 print("K-Nearest Neighbour Model")
 #5, 13 and 16
-kNearestNeighbour = KNeighborsClassifier (n_neighbors=16)
+kNearestNeighbour = KNeighborsClassifier (n_neighbors=5)
 kNearestNeighbour = kNearestNeighbour.fit(xTrain, yTrain)
 
 evaluationMetric(kNearestNeighbour, xTrain, yTrain, xTest, yTest)
+
 #Naive Bayes
 from sklearn.naive_bayes import GaussianNB
 print ("GNB Model")
@@ -322,17 +323,49 @@ gaussianNaiveBayes = GaussianNB()
 gaussianNaiveBayes = gaussianNaiveBayes.fit(xTrain, yTrain)
 
 evaluationMetric(gaussianNaiveBayes, xTrain, yTrain, xTest, yTest)
+
 #K-Means
+from sklearn.cluster import KMeans
+print("K-Means Model")
+kMeansModel = KMeans(n_clusters=2, random_state=0, n_init="auto").fit(xTrain, yTrain)
+
+evaluationMetric(kMeansModel, xTrain, yTrain, xTest, yTest)
 
 #Principal Component Analysis
+from sklearn.decomposition import PCA
+print("PCA Model")
+principalComponent = PCA(n_components=2)
+principalComponent = principalComponent.fit(xTrain, yTrain)
 
-#Logistic Regression
+evaluationMetric(principalComponent, xTrain, yTrain, xTest, yTest)
 
 #Singular Value Decomposition
+from sklearn.decomposition import TruncatedSVD
+print("SVD Model")
+
+singularValueTrunc = TruncatedSVD(n_components=5, n_iter=7, random_state=42)
+singularValueTrunc = singularValueTrunc.fit(xTrain, yTrain)
+
+evaluationMetric(singularValueTrunc, xTrain, yTrain, xTest, yTest)
 
 #Apriori
+#TO DO
 
 #Isolation Forest
+from sklearn.ensemble import IsolationForest
+print ("Isolation Forest Model")
+isolationForest = IsolationForest(random_state=0)
+isolationForest = isolationForest.fit(xTrain, yTrain)
+
+evaluationMetric(isolationForest, xTrain, yTrain, xTest, yTest)
+
+#Stochastic Gradient Descent
+from sklearn.linear_model import SGDClassifier
+print("SGD Model")
+sGradientDescent = SGDClassifier(loss="hinge", penalty="12", max_iter=5)
+sGradientDescent = sGradientDescent.fit(xTrain, yTrain)
+
+evaluationMetric(sGradientDescent, xTrain, yTrain, xTest, yTest)
 
 #HYPERPARAMETER TUNING
 #FINAL MODEL
