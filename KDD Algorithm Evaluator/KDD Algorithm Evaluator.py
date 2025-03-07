@@ -362,7 +362,7 @@ evaluationMetric(isolationForest, xTrain, yTrain, xTest, yTest)
 #Stochastic Gradient Descent
 from sklearn.linear_model import SGDClassifier
 print("SGD Model")
-sGradientDescent = SGDClassifier(loss="hinge", penalty="12", max_iter=5)
+sGradientDescent = SGDClassifier(loss="hinge", penalty="l1", max_iter=5)
 sGradientDescent = sGradientDescent.fit(xTrain, yTrain)
 
 evaluationMetric(sGradientDescent, xTrain, yTrain, xTest, yTest)
