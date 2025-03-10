@@ -283,13 +283,6 @@ def evaluationMetric (model, xTrain, yTrain, xTest, yTest):
     print(confusion_matrix(yTrain, yTrainPrediction))
     print(classification_report(yTrain, yTrainPrediction))
 
-#Linear Regression model
-from sklearn.linear_model import LinearRegression
-print ("Linear Regression Model")
-linearModel = LinearRegression().fit(xTrain, yTrain)
-
-evaluationMetric(linearModel, xTrain, yTrain, xTest, yTest)
-
 #Logistic Regression model
 from sklearn.linear_model import LogisticRegression
 print("Logistic Regression Model")
@@ -337,20 +330,6 @@ print("K-Means Model")
 kMeansModel = KMeans(n_clusters=2, random_state=0, n_init="auto").fit(xTrain, yTrain)
 
 evaluationMetric(kMeansModel, xTrain, yTrain, xTest, yTest)
-
-#Principal Component Analysis - FIX
-#Could possibly use PCA to help with improving classification of data
-#PCA can not be used though to do the classification of data itself as it is not a classifier
-
-#Singular Value Decomposition
-#Could possibly use SVD to help with improving classification of data
-#SVD can not be used though to do the classification of data itself as it is not a classifier
-#Source to watch: https://www.youtube.com/watch?v=gXbThCXjZFM
-
-#Apriori
-#Used for prediction
-#May not be useful for classification itself
-#Could be useful though to predict attacks
 
 #Isolation Forest
 from sklearn.ensemble import IsolationForest
