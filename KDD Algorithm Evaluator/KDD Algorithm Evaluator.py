@@ -283,6 +283,13 @@ def evaluationMetric (model, xTrain, yTrain, xTest, yTest):
     print(confusion_matrix(yTrain, yTrainPrediction))
     print(classification_report(yTrain, yTrainPrediction))
 
+#Linear Regression model
+from sklearn.linear_model import LinearRegression
+print ("Linear Regression Model")
+linearModel = LinearRegression().fit(xTrain, yTrain)
+
+evaluationMetric(linearModel, xTrain, yTrain, xTest, yTest)
+
 #Logistic Regression model
 from sklearn.linear_model import LogisticRegression
 print("Logistic Regression Model")
@@ -332,24 +339,18 @@ kMeansModel = KMeans(n_clusters=2, random_state=0, n_init="auto").fit(xTrain, yT
 evaluationMetric(kMeansModel, xTrain, yTrain, xTest, yTest)
 
 #Principal Component Analysis - FIX
-#from sklearn.decomposition import PCA
-#print("PCA Model")
-#principalComponent = PCA(n_components=2, svd_solver="full")
-#principalComponent = principalComponent.fit(xTrain, yTrain)
-
-#evaluationMetric(principalComponent, xTrain, yTrain, xTest, yTest)
+#Could possibly use PCA to help with improving classification of data
+#PCA can not be used though to do the classification of data itself as it is not a classifier
 
 #Singular Value Decomposition
-#from sklearn.decomposition import TruncatedSVD
-#print("SVD Model")
-
-#singularValueTrunc = TruncatedSVD(n_components=5, n_iter=7, random_state=42)
-#singularValueTrunc = singularValueTrunc.fit(xTrain, yTrain)
-
-#evaluationMetric(singularValueTrunc, xTrain, yTrain, xTest, yTest)
+#Could possibly use SVD to help with improving classification of data
+#SVD can not be used though to do the classification of data itself as it is not a classifier
+#Source to watch: https://www.youtube.com/watch?v=gXbThCXjZFM
 
 #Apriori
-#TO DO
+#Used for prediction
+#May not be useful for classification itself
+#Could be useful though to predict attacks
 
 #Isolation Forest
 from sklearn.ensemble import IsolationForest
