@@ -117,7 +117,7 @@ plt.show()
 #ATTACK OR NON ATTACK CLASSIFICATION
 #Creating a list with the name attackClassifier.
 attackClassifier = []
-#A for loop that analyses event within the dataset.
+#A for loop that analyses each event within the dataset.
 for i in organisedFile.attack:
     #If the event is considered normal, it will append the keyword 'Normal' to the list.
     #Else, if the event is considered an attack, it will append the keyword 'Attack' to the list.
