@@ -14,7 +14,7 @@ import warnings
 warnings.filterwarnings ('ignore')
 #%matplotlib warnings: A magical function that is only valid in Jupyter notebooks. Commented out as it is not valid in python.
 pd.set_option ('display.float_format', lambda x: '%.3f' % x)
-plt.rcParams ["figure.figsize"] = (10,6)
+plt.rcParams ["figure.figsize"] = (10,6) 
 
 #READING DATASET
 #Reading the CSV file named "KDDTrain+.txt" stored locally in the same location as this python file using pandas.
