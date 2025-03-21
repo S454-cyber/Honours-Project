@@ -66,7 +66,7 @@ columns = (['duration' #Duration of connection in seconds
             ,'destinationHostSrvSerrorRate' #The percentage(%) of connections to the current host and specified service that have an S0 error
             ,'destinationHostRerrorRate' #The percentage(%) of connections to the current host that have an RST error
             ,'destinationHostSrvRerrorRate' #The percentage(%) of connections to the  current host and specified service
-            ,'attack' #Classifying whether the attack was considered normal or an anomaly 
+            ,'attack']) #Classifying whether the attack was considered normal or an anomaly 
             #,'level']) #Classifying the level of the attack
 #Assigning the labels of each column to the ones defined above to the KDD dataset.
 organisedFile.columns = columns
