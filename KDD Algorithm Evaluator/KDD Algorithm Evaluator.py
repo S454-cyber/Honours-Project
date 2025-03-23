@@ -1,4 +1,6 @@
 #Source Used to Build Foundation of Code: https://www.kaggle.com/code/eneskosar19/intrusion-detection-system-nsl-kdd#6.3-EVALUATION
+#To run this code, please copy into a local environment with the full data set listed.
+#To run with the full dataset, change line 23 "KDDTrain+.txt" > "KDDCupp99_full.txt" and have associated .txt file in same folder as code.
 
 #IMPORTING LIBRARIES
 #Importing the numpy library (adding support for large, multi-dimensional arrarys and matricies).
