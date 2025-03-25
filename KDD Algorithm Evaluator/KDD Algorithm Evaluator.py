@@ -353,5 +353,3 @@ evaluationMetric(sGradientDescent, xTrain, yTrain, xTest, yTest)
 
 #FEATURE IMPORTANCE
 
-#Testing if github is working on my pc test on 2
-#This is a final test to confirm that github is working
