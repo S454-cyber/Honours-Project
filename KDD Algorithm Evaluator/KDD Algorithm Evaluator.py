@@ -68,8 +68,8 @@ columns = (['duration' #Duration of connection in seconds
             ,'destinationHostSrvSerrorRate' #The percentage(%) of connections to the current host and specified service that have an S0 error
             ,'destinationHostRerrorRate' #The percentage(%) of connections to the current host that have an RST error
             ,'destinationHostSrvRerrorRate' #The percentage(%) of connections to the  current host and specified service
-            ,'attack']) #Classifying whether the attack was considered normal or an anomaly 
-            #,'level']) #Classifying the level of the attack
+            ,'attack' #Classifying whether the attack was considered normal or an anomaly 
+            ,'level']) #Classifying the level of the attack
 #Assigning the labels of each column to the ones defined above to the KDD dataset.
 organisedFile.columns = columns
 #Displaying a section of the organised CSV file as a table to the screen. 
@@ -279,11 +279,11 @@ def evaluationMetric (model, xTrain, yTrain, xTest, yTest):
 
     print ("Test Set")
     print(confusion_matrix(yTest, yPrediction))
-    print(classification_report(yTest, yPrediction))
+    print(classification_report(yTest, yPrediction, digits=5))
     print()
     print("Train Set")
     print(confusion_matrix(yTrain, yTrainPrediction))
-    print(classification_report(yTrain, yTrainPrediction))
+    print(classification_report(yTrain, yTrainPrediction, digits=5))
 
 #Logistic Regression model
 from sklearn.linear_model import LogisticRegression
@@ -350,7 +350,39 @@ sGradientDescent = sGradientDescent.fit(xTrain, yTrain)
 evaluationMetric(sGradientDescent, xTrain, yTrain, xTest, yTest)
 
 #HYPERPARAMETER TUNING
+#Logistic Regression
+from sklearn.model_selection import GridSearchCV
+from  sklearn.model_selection import RepeatedStratifiedKFold
+
+lrModel = LogisticRegression(random_state=42)
+solvers = ['newton-cg', 'lbfgs', 'liblinear']
+penalty = ['l2']
+cValues = [100, 10, 1.0, 0.1, 0.01]
+grid = dict(solver=solvers, penalty=penalty, C = cValues)
+cv = RepeatedStratifiedKFold(n_splits=10, n_repeats=3, random_state=1)
+lrGridModel = GridSearchCV(estimator=lrModel, param_grid=grid, scoring = "f1", n_jobs = -1, cv=cv, error_score=0)
+gridResult = lrGridModel.fit(xTrain, yTrain)
+
+print("Best: %f using %s" % (gridResult.best_score_, gridResult.best_params_))
+means = gridResult.cv_results_['mean_test_score']
+stds = gridResult.cv_results_['std_test_score']
+params = gridResult.cv_results_['params']
+for mean, stdev, param in zip(means, stds, params):
+    print("%f (%f) with: %r" % (mean, stdev, param))
+
+print("RUN DONE :)")
+#Support Vector Machine
+#Decision Tree Classifier
+#K-Nearest Neighbour
+#Naive Bayes
+#K-Means
+#Isolation Forest
+#Stochastic Greadient Descent
+
 #FINAL MODEL
 #EVALUATION
-
 #FEATURE IMPORTANCE
+
+#Testing if github is working on my pc test on 2
+#This is a final test to confirm that github is working
+#This is a final test to confirm that everything on github is working.
