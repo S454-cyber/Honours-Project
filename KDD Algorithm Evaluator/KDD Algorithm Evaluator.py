@@ -350,17 +350,18 @@ sGradientDescent = sGradientDescent.fit(xTrain, yTrain)
 evaluationMetric(sGradientDescent, xTrain, yTrain, xTest, yTest)
 
 #HYPERPARAMETER TUNING
-#Logistic Regression
 from sklearn.model_selection import GridSearchCV
 from  sklearn.model_selection import RepeatedStratifiedKFold
 
+#Logistic Regression
 lrModel = LogisticRegression(random_state=42)
 solvers = ['newton-cg', 'lbfgs', 'liblinear']
 penalty = ['l2']
 cValues = [100, 10, 1.0, 0.1, 0.01]
-grid = dict(solver=solvers, penalty=penalty, C = cValues)
+
+lrGrid = dict(solver=solvers, penalty=penalty, C = cValues)
 cv = RepeatedStratifiedKFold(n_splits=10, n_repeats=3, random_state=1)
-lrGridModel = GridSearchCV(estimator=lrModel, param_grid=grid, scoring = "f1", n_jobs = -1, cv=cv, error_score=0)
+lrGridModel = GridSearchCV(estimator=lrModel, param_grid=lrGrid, scoring = "f1", n_jobs = -1, cv=cv, error_score=0)
 gridResult = lrGridModel.fit(xTrain, yTrain)
 
 print("Best: %f using %s" % (gridResult.best_score_, gridResult.best_params_))
@@ -370,14 +371,45 @@ params = gridResult.cv_results_['params']
 for mean, stdev, param in zip(means, stds, params):
     print("%f (%f) with: %r" % (mean, stdev, param))
 
-print("RUN DONE :)")
+print("Logistic Regression Hyperparameter Tuning Done!")
+
 #Support Vector Machine
+svmModel = svm.SVC()
+kernal = ['poly', 'rbf', 'sigmoid']
+cValueSVM = [50, 10, 1.0, 0.1, 0.01]
+gamma = ['scale']
+
+svmGrid = dict(kernal=kernal, cValueSVM=cValueSVM, gamma=gamma)
+cvSVM = RepeatedStratifiedKFold(n_splits=10, n_repeats=3, random_state=1)
+gridSearchSVM = GridSearchCV(estimator=svmModel, param_grid=svmGrid, n_jobs=-1, cvSVM=cvSVM, scoring='f1', error_score=0)
+gridResultSVM = gridSearchSVM.fit(xTrain, yTrain)
+
+print("Best: %f using %s" % (gridResult.best_score_, gridResult.best_params_))
+means = gridResultSVM.cv_results_['mean_test_score']
+stds = gridResultSVM.cv_results_['std_test_score']
+params = gridResultSVM.cv_results_['params']
+for mean, stdev, param in zip(means, stds, params):
+    print("%f (%f) with: %r" % (mean, stdev, param))
+
+print("Support Vector Machine Hyperparameter Tuning Done!")
+
 #Decision Tree Classifier
+print("Decision Tree Classifier Hyperparameter Tuning Done!")
+
 #K-Nearest Neighbour
+print("K-Nearest Neighbour Hyperparameter Tuning Done!")
+
 #Naive Bayes
+print("Naive Bayes Hyperparameter Tuning Done!")
+
 #K-Means
+print("K-Means Hyperparameter Tuning Done!")
+
 #Isolation Forest
+print("Isolation Forest Hyperparameter Tuning Done!")
+
 #Stochastic Greadient Descent
+print("Stochastic Gradient Descent Hyperparameter Tuning Done!")
 
 #FINAL MODEL
 #EVALUATION
