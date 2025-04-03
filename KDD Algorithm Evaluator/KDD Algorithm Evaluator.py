@@ -354,6 +354,7 @@ from sklearn.model_selection import GridSearchCV
 from  sklearn.model_selection import RepeatedStratifiedKFold
 
 #Logistic Regression
+#SOURCE: https://machinelearningmastery.com/hyperparameters-for-classification-machine-learning-algorithms/
 lrModel = LogisticRegression(random_state=42)
 solvers = ['newton-cg', 'lbfgs', 'liblinear']
 penalty = ['l2']
@@ -374,6 +375,7 @@ for mean, stdev, param in zip(means, stds, params):
 print("Logistic Regression Hyperparameter Tuning Done!")
 
 #Support Vector Machine
+#SOURCE: https://machinelearningmastery.com/hyperparameters-for-classification-machine-learning-algorithms/
 svmModel = svm.SVC()
 kernal = ['poly', 'rbf', 'sigmoid']
 cValueSVM = [50, 10, 1.0, 0.1, 0.01]
@@ -394,9 +396,45 @@ for mean, stdev, param in zip(means, stds, params):
 print("Support Vector Machine Hyperparameter Tuning Done!")
 
 #Decision Tree Classifier
+#SOURCE: https://www.kaggle.com/code/gauravduttakiit/hyperparameter-tuning-in-decision-trees
+dtcModel = tree.DecisionTreeClassifier(random_state=42) 
+dtcMaxDepth = [2, 3, 4, 10, 20]
+dtcMinSamplesLeaf = [5, 10, 20, 50, 100]
+dtcCriterion = ['gini', 'entropy']
+
+dtcGrid = dict(dtcModel=dtcModel, dtcMinSamplesLeaf=dtcMinSamplesLeaf, dtcCriterion=dtcCriterion)
+dtcCV = RepeatedStratifiedKFold(n_splits=10, n_repeats=, random_state=1)
+gridSearchDTC = GridSearchCV(estimator=dtcModel, param_grid=dtcGrid, n_jobs=-1, cv=dtcCV, scoring='f1', error_score=0)
+gridResultDTC = gridSearchDTC.fit(xTrain, yTrain)
+
+print("Best: %f using %s" % (gridResultDTC.best_score_, gridResultDTC.best_params_))
+means = gridResultDTC.cv_results_['mean_test_score']
+stds = gridResultDTC.cv_results_['std_test_score']
+params = gridResultDTC.cv_results_['params']
+for mean, stdev, param in zip(means, stds, params):
+    print("%f (%f) with: %r" % (mean, stdev, param))
+
 print("Decision Tree Classifier Hyperparameter Tuning Done!")
 
 #K-Nearest Neighbour
+#SOURCE: https://machinelearningmastery.com/hyperparameters-for-classification-machine-learning-algorithms/
+knnModel = KNeighborsClassifier()
+nNeighbour = range(1, 21)
+knnWeights = ['uniform', 'distance']
+knnMetric = ['euclidean','manhattan','minkowski']
+
+knnGrid = dict(nNeighbour=nNeighbour, knnWeights=knnWeights, knnMetric=knnMetric)
+knnCV = RepeatedStratifiedKFold(n_splits=10, n_repeats=3, random_state=1)
+gridSearchKNN = GridSearchCV(estimator=knnModel, param_grid=knnGrid, n_jobs=-1, cv=knnCV, scoring='f1', error_score=0)
+gridResultKNN = gridSearchKNN.fit(xTrain, yTrain)
+
+print("Best: %f using %s" % (gridResultKNN.best_score_, gridResultKNN.best_params_))
+means = gridResultKNN.cv_results_['mean_test_score']
+stds = gridResultKNN.cv_results_['std_test_score']
+params = gridResultKNN.cv_results_['params']
+for mean, stdev, param in zip(means, stds, params):
+    print("%f (%f) with: %r" % (mean, stdev, param))
+
 print("K-Nearest Neighbour Hyperparameter Tuning Done!")
 
 #Naive Bayes
