@@ -318,10 +318,10 @@ kNearestNeighbour = kNearestNeighbour.fit(xTrain, yTrain)
 
 evaluationMetric(kNearestNeighbour, xTrain, yTrain, xTest, yTest)
 
-#Naive Bayes
+#Gaussian Naive Bayes
 from sklearn.naive_bayes import GaussianNB
 print ("GNB Model")
-gaussianNaiveBayes = GaussianNB()
+gaussianNaiveBayes = GaussianNB(priors=None, var_smoothing=1e-9)
 gaussianNaiveBayes = gaussianNaiveBayes.fit(xTrain, yTrain)
 
 evaluationMetric(gaussianNaiveBayes, xTrain, yTrain, xTest, yTest)
@@ -362,7 +362,7 @@ cValues = [100, 10, 1.0, 0.1, 0.01]
 
 lrGrid = dict(solver=solvers, penalty=penalty, C = cValues)
 cv = RepeatedStratifiedKFold(n_splits=10, n_repeats=3, random_state=1)
-lrGridModel = GridSearchCV(estimator=lrModel, param_grid=lrGrid, scoring = "f1", n_jobs = -1, cv=cv, error_score=0)
+lrGridModel = GridSearchCV(estimator=lrModel, param_grid=lrGrid, scoring = "accuracy", n_jobs = -1, cv=cv, error_score=0)
 gridResult = lrGridModel.fit(xTrain, yTrain)
 
 print("Best: %f using %s" % (gridResult.best_score_, gridResult.best_params_))
@@ -383,7 +383,7 @@ gamma = ['scale']
 
 svmGrid = dict(kernal=kernal, cValueSVM=cValueSVM, gamma=gamma)
 cvSVM = RepeatedStratifiedKFold(n_splits=10, n_repeats=3, random_state=1)
-gridSearchSVM = GridSearchCV(estimator=svmModel, param_grid=svmGrid, n_jobs=-1, cvSVM=cvSVM, scoring='f1', error_score=0)
+gridSearchSVM = GridSearchCV(estimator=svmModel, param_grid=svmGrid, n_jobs=-1, cvSVM=cvSVM, scoring='accuracy', error_score=0)
 gridResultSVM = gridSearchSVM.fit(xTrain, yTrain)
 
 print("Best: %f using %s" % (gridResult.best_score_, gridResult.best_params_))
@@ -403,8 +403,8 @@ dtcMinSamplesLeaf = [5, 10, 20, 50, 100]
 dtcCriterion = ['gini', 'entropy']
 
 dtcGrid = dict(dtcModel=dtcModel, dtcMinSamplesLeaf=dtcMinSamplesLeaf, dtcCriterion=dtcCriterion)
-dtcCV = RepeatedStratifiedKFold(n_splits=10, n_repeats=, random_state=1)
-gridSearchDTC = GridSearchCV(estimator=dtcModel, param_grid=dtcGrid, n_jobs=-1, cv=dtcCV, scoring='f1', error_score=0)
+dtcCV = RepeatedStratifiedKFold(n_splits=10, n_repeats=3, random_state=1)
+gridSearchDTC = GridSearchCV(estimator=dtcModel, param_grid=dtcGrid, n_jobs=-1, cv=dtcCV, scoring='accuracy', error_score=0)
 gridResultDTC = gridSearchDTC.fit(xTrain, yTrain)
 
 print("Best: %f using %s" % (gridResultDTC.best_score_, gridResultDTC.best_params_))
@@ -425,7 +425,7 @@ knnMetric = ['euclidean','manhattan','minkowski']
 
 knnGrid = dict(nNeighbour=nNeighbour, knnWeights=knnWeights, knnMetric=knnMetric)
 knnCV = RepeatedStratifiedKFold(n_splits=10, n_repeats=3, random_state=1)
-gridSearchKNN = GridSearchCV(estimator=knnModel, param_grid=knnGrid, n_jobs=-1, cv=knnCV, scoring='f1', error_score=0)
+gridSearchKNN = GridSearchCV(estimator=knnModel, param_grid=knnGrid, n_jobs=-1, cv=knnCV, scoring='accuracy', error_score=0)
 gridResultKNN = gridSearchKNN.fit(xTrain, yTrain)
 
 print("Best: %f using %s" % (gridResultKNN.best_score_, gridResultKNN.best_params_))
@@ -437,16 +437,57 @@ for mean, stdev, param in zip(means, stds, params):
 
 print("K-Nearest Neighbour Hyperparameter Tuning Done!")
 
-#Naive Bayes
+#Gaussian Naive Bayes
+gnbModel = GaussianNB()
+varSmoothing = np.logspace(0, -9, num=100)
+
+gnbCV = RepeatedStratifiedKFold(n_splits=10, n_repeats=3, random_state=1)
+gridSearchNB = GridSearchCV(estimator=gnbModel, param_grid=varSmoothing, n_jobs=-1,cv=gnbCV, verbose=1, scoring='accuracy', error_score=0)
+gridResultNB = gridSearchNB.fit(xTrain, yTrain)
+
+print("Best: %f using %s" % (gridResultNB.best_score_, gridResultNB.best_params_))
+means = gridResultNB.cv_results_['mean_test_score']
+stds = gridResultNB.cv_results_['std_test_score']
+params = gridResultNB.cv_results_['params']
+for mean, stdev, param in zip(means, stds, params):
+    print("%f (%f) with: %r" % (mean, stdev, param))
+
 print("Naive Bayes Hyperparameter Tuning Done!")
 
 #K-Means
+
+
+print("Best: %f using %s" % (gridResultKNN.best_score_, gridResultKNN.best_params_))
+means = gridResultKNN.cv_results_['mean_test_score']
+stds = gridResultKNN.cv_results_['std_test_score']
+params = gridResultKNN.cv_results_['params']
+for mean, stdev, param in zip(means, stds, params):
+    print("%f (%f) with: %r" % (mean, stdev, param))
+
 print("K-Means Hyperparameter Tuning Done!")
 
 #Isolation Forest
+
+
+print("Best: %f using %s" % (gridResultKNN.best_score_, gridResultKNN.best_params_))
+means = gridResultKNN.cv_results_['mean_test_score']
+stds = gridResultKNN.cv_results_['std_test_score']
+params = gridResultKNN.cv_results_['params']
+for mean, stdev, param in zip(means, stds, params):
+    print("%f (%f) with: %r" % (mean, stdev, param))
+
 print("Isolation Forest Hyperparameter Tuning Done!")
 
 #Stochastic Greadient Descent
+
+
+print("Best: %f using %s" % (gridResultKNN.best_score_, gridResultKNN.best_params_))
+means = gridResultKNN.cv_results_['mean_test_score']
+stds = gridResultKNN.cv_results_['std_test_score']
+params = gridResultKNN.cv_results_['params']
+for mean, stdev, param in zip(means, stds, params):
+    print("%f (%f) with: %r" % (mean, stdev, param))
+
 print("Stochastic Gradient Descent Hyperparameter Tuning Done!")
 
 #FINAL MODEL
