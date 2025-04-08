@@ -455,12 +455,25 @@ for mean, stdev, param in zip(means, stds, params):
 print("Naive Bayes Hyperparameter Tuning Done!")
 
 #K-Means
+#from gap_statistic import OptimalK
 
+#n_clusters = OptimalK(n_jobs=-1)
+#n_clusters(X, cluster_array=np.arange(1, 7))
+#n_clusters_g = n_clusters.n_clusters
 
-print("Best: %f using %s" % (gridResultKNN.best_score_, gridResultKNN.best_params_))
-means = gridResultKNN.cv_results_['mean_test_score']
-stds = gridResultKNN.cv_results_['std_test_score']
-params = gridResultKNN.cv_results_['params']
+kmModel = KMeans()
+nClusters = range(1,10)
+init = ['k-means++', 'random']
+nInit = [5, 10, 15]
+maxIter = [100, 200, 300, 400, 500]
+#tol = 
+#algorithm =
+#randomState = 
+
+#print("Best: %f using %s" % (gridResultKM.best_score_, gridResultKM.best_params_))
+#means = gridResultKM.cv_results_['mean_test_score']
+#stds = gridResultKM.cv_results_['std_test_score']
+#params = gridResultKM.cv_results_['params']
 for mean, stdev, param in zip(means, stds, params):
     print("%f (%f) with: %r" % (mean, stdev, param))
 
