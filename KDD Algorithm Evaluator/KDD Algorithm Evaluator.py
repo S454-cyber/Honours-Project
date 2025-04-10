@@ -438,6 +438,11 @@ for mean, stdev, param in zip(means, stds, params):
 print("K-Nearest Neighbour Hyperparameter Tuning Done!")
 
 #Gaussian Naive Bayes
+#SOURCE: https://www.kaggle.com/code/akshaysharma001/naive-bayes-with-hyperpameter-tuning#Hyperparameter-Tuning-to-improve-Accuracy
+#SOURCE: https://scikit-learn.org/stable/modules/generated/sklearn.naive_bayes.GaussianNB.html#sklearn.naive_bayes.GaussianNB.partial_fit
+#SOURCE (MAYBE): https://www.analyticsvidhya.com/blog/2021/01/gaussian-naive-bayes-with-hyperpameter-tuning/
+#SOURCE (MAYBE): https://stackoverflow.com/questions/39828535/how-to-tune-gaussiannb
+
 gnbModel = GaussianNB()
 varSmoothing = np.logspace(0, -9, num=100)
 
@@ -455,6 +460,7 @@ for mean, stdev, param in zip(means, stds, params):
 print("Naive Bayes Hyperparameter Tuning Done!")
 
 #K-Means
+#SOURCE: https://www.kaggle.com/code/diegohurtadoo/customer-segmentation-kmeans-parameter-tuning#3.4--KMeans-
 nClusters = range(1,10)
 init = ['k-means++', 'random']
 nInit = [5, 10, 15]
@@ -480,7 +486,7 @@ for mean, stdev, param in zip(means, stds, params):
 print("K-Means Hyperparameter Tuning Done!")
 
 #Isolation Forest
-
+#SOURCE: https://campus.datacamp.com/courses/anomaly-detection-in-python/isolation-forests-with-pyod?ex=9
 
 print("Best: %f using %s" % (gridResultKNN.best_score_, gridResultKNN.best_params_))
 means = gridResultKNN.cv_results_['mean_test_score']
@@ -492,7 +498,7 @@ for mean, stdev, param in zip(means, stds, params):
 print("Isolation Forest Hyperparameter Tuning Done!")
 
 #Stochastic Greadient Descent
-
+#SOURCE: https://scikit-learn.org/stable/modules/sgd.html
 
 print("Best: %f using %s" % (gridResultKNN.best_score_, gridResultKNN.best_params_))
 means = gridResultKNN.cv_results_['mean_test_score']
