@@ -455,25 +455,25 @@ for mean, stdev, param in zip(means, stds, params):
 print("Naive Bayes Hyperparameter Tuning Done!")
 
 #K-Means
-#from gap_statistic import OptimalK
-
-#n_clusters = OptimalK(n_jobs=-1)
-#n_clusters(X, cluster_array=np.arange(1, 7))
-#n_clusters_g = n_clusters.n_clusters
-
-kmModel = KMeans()
 nClusters = range(1,10)
 init = ['k-means++', 'random']
 nInit = [5, 10, 15]
 maxIter = [100, 200, 300, 400, 500]
-#tol = 
-#algorithm =
-#randomState = 
+tol = [0.0001, 0.001, 0.01]
+algorithm = ['auto', 'full', 'elkan']
+randomState = [0, 42, 100]
 
-#print("Best: %f using %s" % (gridResultKM.best_score_, gridResultKM.best_params_))
-#means = gridResultKM.cv_results_['mean_test_score']
-#stds = gridResultKM.cv_results_['std_test_score']
-#params = gridResultKM.cv_results_['params']
+kmCV = RepeatedStratifiedKFold(n_splits=10, n_repeats=3, random_state=1)
+
+kmModel = KMeans(random_state=42)
+kmGrid = dict(nClusters=nClusters, init=init, nInit=nInit, maxIter=maxIter, tol=tol, algorithm=algorithm, randomState=randomState)
+gridSearchKM = GridSearchCV(estimator=kmModel, param_grid=kmGrid, n_jobs=-1, cv=kmCV, verbose=1, scoring='accuracy', error_score=0)
+gridResultKM = gridSearchKM.fit(xTrain, yTrain)
+
+print("Best: %f using %s" % (gridResultKM.best_score_, gridResultKM.best_params_))
+means = gridResultKM.cv_results_['mean_test_score']
+stds = gridResultKM.cv_results_['std_test_score']
+params = gridResultKM.cv_results_['params']
 for mean, stdev, param in zip(means, stds, params):
     print("%f (%f) with: %r" % (mean, stdev, param))
 
