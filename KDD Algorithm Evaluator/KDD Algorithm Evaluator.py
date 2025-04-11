@@ -467,7 +467,7 @@ init = ['k-means++', 'random']
 nInit = [5, 10, 15]
 maxIter = [100, 200, 300, 400, 500]
 tol = [0.0001, 0.001, 0.01]
-algorithm = ['auto', 'full', 'elkan']
+algorithm = ['auto', 'full', 'elkan', 'lloyd']
 randomState = [0, 42, 100]
 
 kmCV = RepeatedStratifiedKFold(n_splits=10, n_repeats=3, random_state=1)
