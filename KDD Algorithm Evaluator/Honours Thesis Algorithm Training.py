@@ -69,38 +69,3 @@ organisedFile.columns = columns
 organisedFile.head(10)
 organisedFile.info()
 organisedFile.describe().T
-
-#Finds total sum of data points where the data value is null/empty.
-organisedFile.isnull().sum()
-#Creating a helper function which will find the total sum of unique values across all columns of the dataset.
-def uniqueValues(organisedFile, columns):
-    for columnName in columns:
-        print(f"column: {columnName}\n{'-'*30}")
-        uniqueValues = organisedFile[columnName].unique()
-        valueCounts = organisedFile[columnName].value_counts()
-        print(f"Unique Values ({len(uniqueValues)}): {uniqueValues}\n")
-        print(f"Value Counts:\n{valueCounts}\n{'='*40}\n")
-
-#Displaying the unique features of the data types as well as including the object of the column to the screen. 
-#Provides total sum of duplicated values in the dataset.
-catFeatures = organisedFile.select_dtypes(include='object').columns
-uniqueValues(organisedFile, catFeatures)
-organisedFile.duplicated().sum()
-
-#Obtains current shape of array and specifying the figure size, in inches.
-#Displaying data as a box plot graph with a specified layout and figure size, displayed to the screen.
-organisedFile.shape
-plt.figure(figsize=(20,40))
-organisedFile.plot(kind='box', subplots=True, layout=(8,5), figsize=(20,40))
-plt.show()
-
-#Classifies whether a log entry is an anomaly or not and appending to the list attackClassifier.
-attackClassifier = []
-for i in organisedFile.attack:
-    if i == 'normal':
-        attackClassifier.append("normal")
-    else:
-        attackClassifier.append("attack")
-organisedFile['attack'] = attackClassifier
-#Displays unique attack entries within the dataset.
-organisedFile['attack'].unique()
