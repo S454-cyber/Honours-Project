@@ -104,6 +104,7 @@ def uniqueValues(organisedFile, columns):
 catFeatures = organisedFile.select_dtypes(include='object').columns
 #Unique values to have the attributes of organisedFile and catFeatures.
 uniqueValues(organisedFile, catFeatures)
+
 #DUPLCIATES
 #Calculating the total sum of duplicated entries.
 organisedFile.duplicated().sum()
