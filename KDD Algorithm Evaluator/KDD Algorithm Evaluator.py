@@ -354,7 +354,7 @@ evaluationMetric(sGradientDescent, xTrain, yTrain, xTest, yTest)
 from sklearn.model_selection import GridSearchCV
 from  sklearn.model_selection import RepeatedStratifiedKFold
 
-#Logistic Regression
+#Logistic Regression (Check Parameters)
 #SOURCE: https://machinelearningmastery.com/hyperparameters-for-classification-machine-learning-algorithms/
 lrModel = LogisticRegression(random_state=42)
 solvers = ['newton-cg', 'lbfgs', 'liblinear']
@@ -375,16 +375,16 @@ for mean, stdev, param in zip(means, stds, params):
 
 print("Logistic Regression Hyperparameter Tuning Done!")
 
-#Support Vector Machine
+#Support Vector Machine (Check Parameters)
 #SOURCE: https://machinelearningmastery.com/hyperparameters-for-classification-machine-learning-algorithms/
 svmModel = svm.SVC()
-kernal = ['poly', 'rbf', 'sigmoid']
-cValueSVM = [50, 10, 1.0, 0.1, 0.01]
+kernel = ['poly', 'rbf', 'sigmoid']
+C = [50, 10, 1.0, 0.1, 0.01]
 gamma = ['scale']
 
-svmGrid = dict(kernal=kernal, cValueSVM=cValueSVM, gamma=gamma)
+svmGrid = dict(kernel=kernel, C=C, gamma=gamma)
 cvSVM = RepeatedStratifiedKFold(n_splits=10, n_repeats=3, random_state=1)
-gridSearchSVM = GridSearchCV(estimator=svmModel, param_grid=svmGrid, n_jobs=-1, cvSVM=cvSVM, scoring='accuracy', error_score=0)
+gridSearchSVM = GridSearchCV(estimator=svmModel, param_grid=svmGrid, n_jobs=-1, cv=cvSVM, scoring='accuracy', error_score=0)
 gridResultSVM = gridSearchSVM.fit(xTrain, yTrain)
 
 print("Best: %f using %s" % (gridResult.best_score_, gridResult.best_params_))
@@ -396,7 +396,7 @@ for mean, stdev, param in zip(means, stds, params):
 
 print("Support Vector Machine Hyperparameter Tuning Done!")
 
-#Decision Tree Classifier
+#Decision Tree Classifier (Check Parameters)
 #SOURCE: https://www.kaggle.com/code/gauravduttakiit/hyperparameter-tuning-in-decision-trees
 dtcModel = tree.DecisionTreeClassifier(random_state=42) 
 dtcMaxDepth = [2, 3, 4, 10, 20]
@@ -417,7 +417,7 @@ for mean, stdev, param in zip(means, stds, params):
 
 print("Decision Tree Classifier Hyperparameter Tuning Done!")
 
-#K-Nearest Neighbour
+#K-Nearest Neighbour (Check Parameters)
 #SOURCE: https://machinelearningmastery.com/hyperparameters-for-classification-machine-learning-algorithms/
 knnModel = KNeighborsClassifier()
 nNeighbour = range(1, 21)
@@ -438,7 +438,7 @@ for mean, stdev, param in zip(means, stds, params):
 
 print("K-Nearest Neighbour Hyperparameter Tuning Done!")
 
-#Gaussian Naive Bayes
+#Gaussian Naive Bayes (Check Parameters)
 #SOURCE: https://www.kaggle.com/code/akshaysharma001/naive-bayes-with-hyperpameter-tuning#Hyperparameter-Tuning-to-improve-Accuracy
 #SOURCE: https://scikit-learn.org/stable/modules/generated/sklearn.naive_bayes.GaussianNB.html#sklearn.naive_bayes.GaussianNB.partial_fit
 #SOURCE (MAYBE): https://www.analyticsvidhya.com/blog/2021/01/gaussian-naive-bayes-with-hyperpameter-tuning/
@@ -460,7 +460,7 @@ for mean, stdev, param in zip(means, stds, params):
 
 print("Naive Bayes Hyperparameter Tuning Done!")
 
-#K-Means
+#K-Means (Check Parameters)
 #SOURCE: https://www.kaggle.com/code/diegohurtadoo/customer-segmentation-kmeans-parameter-tuning#3.4--KMeans-
 nClusters = range(1,10)
 init = ['k-means++', 'random']
@@ -486,35 +486,54 @@ for mean, stdev, param in zip(means, stds, params):
 
 print("K-Means Hyperparameter Tuning Done!")
 
-#Isolation Forest
-#SOURCE: https://campus.datacamp.com/courses/anomaly-detection-in-python/isolation-forests-with-pyod?ex=9
+#Isolation Forest (Check Parameters)
+#SOURCE: https://stackoverflow.com/questions/56078831/isolation-forest-parameter-tuning-with-gridsearchcv
+#https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.IsolationForest.html
+nEstimators = list(range(100, 800, 5))
+maxSamples = list(range(100, 500, 5))
+contamination = [0.1, 0.2, 0.3, 0.4, 0.5]
+maxFeatures = [5, 10, 15]
+bootstrap = [True, False]
+nJobs = [5, 10, 20, 30]
 
-print("Best: %f using %s" % (gridResultKNN.best_score_, gridResultKNN.best_params_))
-means = gridResultKNN.cv_results_['mean_test_score']
-stds = gridResultKNN.cv_results_['std_test_score']
-params = gridResultKNN.cv_results_['params']
+ifCV = RepeatedStratifiedKFold(n_splits=10, n_repeats=3, random_state=1)
+isolationForest = IsolationForest(random_state=42)
+ifGrid = dict(nEstimators=nEstimators, maxSamples=maxSamples, contamination=contamination, maxFeatures=maxFeatures, bootstrap=bootstrap, nJobs=nJobs)
+gridSearchIF = GridSearchCV(estimator=isolationForest, param_grid=ifGrid, n_jobs=-1, cv=ifCV, verbose=1, scoring='accuracy', error_score=0)
+gridResultIF = gridSearchIF.fit(xTrain, yTrain)
+
+print("Best: %f using %s" % (gridResultIF.best_score_, gridResultIF.best_params_))
+means = gridResultIF.cv_results_['mean_test_score']
+stds = gridResultIF.cv_results_['std_test_score']
+params = gridResultIF.cv_results_['params']
 for mean, stdev, param in zip(means, stds, params):
     print("%f (%f) with: %r" % (mean, stdev, param))
 
 print("Isolation Forest Hyperparameter Tuning Done!")
 
-#Stochastic Greadient Descent
+#Stochastic Greadient Descent (Check Parameters)
 #SOURCE: https://scikit-learn.org/stable/modules/sgd.html
 
-print("Best: %f using %s" % (gridResultKNN.best_score_, gridResultKNN.best_params_))
-means = gridResultKNN.cv_results_['mean_test_score']
-stds = gridResultKNN.cv_results_['std_test_score']
-params = gridResultKNN.cv_results_['params']
+loss = ['hinge','modified_huber','log_loss']
+penalty = ['l1','l2','elasticent']
+maxIter = 5
+
+sgdCV = RepeatedStratifiedKFold(n_splits=10, n_repeats=3, random_state=1)
+sgdModel = SGDClassifier()
+sgdGrid = dict(loss=loss, penalty=penalty, maxIter=maxIter)
+gridSearchSGD = GridSearchCV(estimator=sgdModel, param_grid=sgdGrid, n_jobs=-1, cv=ifCV, verbose=1, scoring='accuracy', error_score=0)
+gridResultSGD = gridSearchSGD.fit(xTrain, yTrain)
+
+print("Best: %f using %s" % (gridResultSGD.best_score_, gridResultSGD.best_params_))
+means = gridResultSGD.cv_results_['mean_test_score']
+stds = gridResultSGD.cv_results_['std_test_score']
+params = gridResultSGD.cv_results_['params']
 for mean, stdev, param in zip(means, stds, params):
     print("%f (%f) with: %r" % (mean, stdev, param))
 
 print("Stochastic Gradient Descent Hyperparameter Tuning Done!")
 
-#FINAL MODEL
-#EVALUATION
-#FEATURE IMPORTANCE
-#HYBRID MODEL
-
-#Testing if github is working on my pc test on 2
-#This is a final test to confirm that github is working
-#This is a final test to confirm that everything on github is working.
+#FINAL MODEL (Done after hyperparameter tuning results obtained)
+#EVALUATION (Done after running final model)
+#FEATURE IMPORTANCE (Have a look at the important features)
+#HYBRID MODEL (Select three best performing algorithms for stacking method)
