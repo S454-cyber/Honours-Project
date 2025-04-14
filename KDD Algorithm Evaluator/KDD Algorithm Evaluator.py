@@ -68,8 +68,8 @@ columns = (['duration' #Duration of connection in seconds
             ,'destinationHostSrvSerrorRate' #The percentage(%) of connections to the current host and specified service that have an S0 error
             ,'destinationHostRerrorRate' #The percentage(%) of connections to the current host that have an RST error
             ,'destinationHostSrvRerrorRate' #The percentage(%) of connections to the  current host and specified service
-            ,'attack']) #Classifying whether the attack was considered normal or an anomaly 
-            #,'level']) #Classifying the level of the attack
+            ,'attack' #Classifying whether the attack was considered normal or an anomaly 
+            ,'level']) #Classifying the level of the attack
 #Assigning the labels of each column to the ones defined above to the KDD dataset.
 organisedFile.columns = columns
 #Displaying a section of the organised CSV file as a table to the screen. 
@@ -279,11 +279,11 @@ def evaluationMetric (model, xTrain, yTrain, xTest, yTest):
 
     print ("Test Set")
     print(confusion_matrix(yTest, yPrediction))
-    print(classification_report(yTest, yPrediction))
+    print(classification_report(yTest, yPrediction, digits=5))
     print()
     print("Train Set")
     print(confusion_matrix(yTrain, yTrainPrediction))
-    print(classification_report(yTrain, yTrainPrediction))
+    print(classification_report(yTrain, yTrainPrediction, digits=5))
 
 #Logistic Regression model
 from sklearn.linear_model import LogisticRegression
