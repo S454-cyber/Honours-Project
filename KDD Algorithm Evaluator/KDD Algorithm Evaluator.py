@@ -318,10 +318,10 @@ kNearestNeighbour = kNearestNeighbour.fit(xTrain, yTrain)
 
 evaluationMetric(kNearestNeighbour, xTrain, yTrain, xTest, yTest)
 
-#Naive Bayes
+#Gaussian Naive Bayes
 from sklearn.naive_bayes import GaussianNB
 print ("GNB Model")
-gaussianNaiveBayes = GaussianNB()
+gaussianNaiveBayes = GaussianNB(priors=None, var_smoothing=1e-9)
 gaussianNaiveBayes = gaussianNaiveBayes.fit(xTrain, yTrain)
 
 evaluationMetric(gaussianNaiveBayes, xTrain, yTrain, xTest, yTest)
@@ -350,7 +350,170 @@ sGradientDescent = sGradientDescent.fit(xTrain, yTrain)
 evaluationMetric(sGradientDescent, xTrain, yTrain, xTest, yTest)
 
 #HYPERPARAMETER TUNING
+from sklearn.model_selection import GridSearchCV
+from  sklearn.model_selection import RepeatedStratifiedKFold
+
+#Logistic Regression
+#SOURCE: https://machinelearningmastery.com/hyperparameters-for-classification-machine-learning-algorithms/
+lrModel = LogisticRegression(random_state=42)
+solvers = ['newton-cg', 'lbfgs', 'liblinear']
+penalty = ['l2']
+cValues = [100, 10, 1.0, 0.1, 0.01]
+
+lrGrid = dict(solver=solvers, penalty=penalty, C = cValues)
+cv = RepeatedStratifiedKFold(n_splits=10, n_repeats=3, random_state=1)
+lrGridModel = GridSearchCV(estimator=lrModel, param_grid=lrGrid, scoring = "accuracy", n_jobs = -1, cv=cv, error_score=0)
+gridResult = lrGridModel.fit(xTrain, yTrain)
+
+print("Best: %f using %s" % (gridResult.best_score_, gridResult.best_params_))
+means = gridResult.cv_results_['mean_test_score']
+stds = gridResult.cv_results_['std_test_score']
+params = gridResult.cv_results_['params']
+for mean, stdev, param in zip(means, stds, params):
+    print("%f (%f) with: %r" % (mean, stdev, param))
+
+print("Logistic Regression Hyperparameter Tuning Done!")
+
+#Support Vector Machine
+#SOURCE: https://machinelearningmastery.com/hyperparameters-for-classification-machine-learning-algorithms/
+svmModel = svm.SVC()
+kernal = ['poly', 'rbf', 'sigmoid']
+cValueSVM = [50, 10, 1.0, 0.1, 0.01]
+gamma = ['scale']
+
+svmGrid = dict(kernal=kernal, cValueSVM=cValueSVM, gamma=gamma)
+cvSVM = RepeatedStratifiedKFold(n_splits=10, n_repeats=3, random_state=1)
+gridSearchSVM = GridSearchCV(estimator=svmModel, param_grid=svmGrid, n_jobs=-1, cvSVM=cvSVM, scoring='accuracy', error_score=0)
+gridResultSVM = gridSearchSVM.fit(xTrain, yTrain)
+
+print("Best: %f using %s" % (gridResult.best_score_, gridResult.best_params_))
+means = gridResultSVM.cv_results_['mean_test_score']
+stds = gridResultSVM.cv_results_['std_test_score']
+params = gridResultSVM.cv_results_['params']
+for mean, stdev, param in zip(means, stds, params):
+    print("%f (%f) with: %r" % (mean, stdev, param))
+
+print("Support Vector Machine Hyperparameter Tuning Done!")
+
+#Decision Tree Classifier
+#SOURCE: https://www.kaggle.com/code/gauravduttakiit/hyperparameter-tuning-in-decision-trees
+dtcModel = tree.DecisionTreeClassifier(random_state=42) 
+dtcMaxDepth = [2, 3, 4, 10, 20]
+dtcMinSamplesLeaf = [5, 10, 20, 50, 100]
+dtcCriterion = ['gini', 'entropy']
+
+dtcGrid = dict(dtcModel=dtcModel, dtcMinSamplesLeaf=dtcMinSamplesLeaf, dtcCriterion=dtcCriterion)
+dtcCV = RepeatedStratifiedKFold(n_splits=10, n_repeats=3, random_state=1)
+gridSearchDTC = GridSearchCV(estimator=dtcModel, param_grid=dtcGrid, n_jobs=-1, cv=dtcCV, scoring='accuracy', error_score=0)
+gridResultDTC = gridSearchDTC.fit(xTrain, yTrain)
+
+print("Best: %f using %s" % (gridResultDTC.best_score_, gridResultDTC.best_params_))
+means = gridResultDTC.cv_results_['mean_test_score']
+stds = gridResultDTC.cv_results_['std_test_score']
+params = gridResultDTC.cv_results_['params']
+for mean, stdev, param in zip(means, stds, params):
+    print("%f (%f) with: %r" % (mean, stdev, param))
+
+print("Decision Tree Classifier Hyperparameter Tuning Done!")
+
+#K-Nearest Neighbour
+#SOURCE: https://machinelearningmastery.com/hyperparameters-for-classification-machine-learning-algorithms/
+knnModel = KNeighborsClassifier()
+nNeighbour = range(1, 21)
+knnWeights = ['uniform', 'distance']
+knnMetric = ['euclidean','manhattan','minkowski']
+
+knnGrid = dict(nNeighbour=nNeighbour, knnWeights=knnWeights, knnMetric=knnMetric)
+knnCV = RepeatedStratifiedKFold(n_splits=10, n_repeats=3, random_state=1)
+gridSearchKNN = GridSearchCV(estimator=knnModel, param_grid=knnGrid, n_jobs=-1, cv=knnCV, scoring='accuracy', error_score=0)
+gridResultKNN = gridSearchKNN.fit(xTrain, yTrain)
+
+print("Best: %f using %s" % (gridResultKNN.best_score_, gridResultKNN.best_params_))
+means = gridResultKNN.cv_results_['mean_test_score']
+stds = gridResultKNN.cv_results_['std_test_score']
+params = gridResultKNN.cv_results_['params']
+for mean, stdev, param in zip(means, stds, params):
+    print("%f (%f) with: %r" % (mean, stdev, param))
+
+print("K-Nearest Neighbour Hyperparameter Tuning Done!")
+
+#Gaussian Naive Bayes
+#SOURCE: https://www.kaggle.com/code/akshaysharma001/naive-bayes-with-hyperpameter-tuning#Hyperparameter-Tuning-to-improve-Accuracy
+#SOURCE: https://scikit-learn.org/stable/modules/generated/sklearn.naive_bayes.GaussianNB.html#sklearn.naive_bayes.GaussianNB.partial_fit
+#SOURCE (MAYBE): https://www.analyticsvidhya.com/blog/2021/01/gaussian-naive-bayes-with-hyperpameter-tuning/
+#SOURCE (MAYBE): https://stackoverflow.com/questions/39828535/how-to-tune-gaussiannb
+
+gnbModel = GaussianNB()
+varSmoothing = np.logspace(0, -9, num=100)
+
+gnbCV = RepeatedStratifiedKFold(n_splits=10, n_repeats=3, random_state=1)
+gridSearchNB = GridSearchCV(estimator=gnbModel, param_grid=varSmoothing, n_jobs=-1,cv=gnbCV, verbose=1, scoring='accuracy', error_score=0)
+gridResultNB = gridSearchNB.fit(xTrain, yTrain)
+
+print("Best: %f using %s" % (gridResultNB.best_score_, gridResultNB.best_params_))
+means = gridResultNB.cv_results_['mean_test_score']
+stds = gridResultNB.cv_results_['std_test_score']
+params = gridResultNB.cv_results_['params']
+for mean, stdev, param in zip(means, stds, params):
+    print("%f (%f) with: %r" % (mean, stdev, param))
+
+print("Naive Bayes Hyperparameter Tuning Done!")
+
+#K-Means
+#SOURCE: https://www.kaggle.com/code/diegohurtadoo/customer-segmentation-kmeans-parameter-tuning#3.4--KMeans-
+nClusters = range(1,10)
+init = ['k-means++', 'random']
+nInit = [5, 10, 15]
+maxIter = [100, 200, 300, 400, 500]
+tol = [0.0001, 0.001, 0.01]
+algorithm = ['auto', 'full', 'elkan']
+randomState = [0, 42, 100]
+
+kmCV = RepeatedStratifiedKFold(n_splits=10, n_repeats=3, random_state=1)
+
+kmModel = KMeans(random_state=42)
+kmGrid = dict(nClusters=nClusters, init=init, nInit=nInit, maxIter=maxIter, tol=tol, algorithm=algorithm, randomState=randomState)
+gridSearchKM = GridSearchCV(estimator=kmModel, param_grid=kmGrid, n_jobs=-1, cv=kmCV, verbose=1, scoring='accuracy', error_score=0)
+gridResultKM = gridSearchKM.fit(xTrain, yTrain)
+
+print("Best: %f using %s" % (gridResultKM.best_score_, gridResultKM.best_params_))
+means = gridResultKM.cv_results_['mean_test_score']
+stds = gridResultKM.cv_results_['std_test_score']
+params = gridResultKM.cv_results_['params']
+for mean, stdev, param in zip(means, stds, params):
+    print("%f (%f) with: %r" % (mean, stdev, param))
+
+print("K-Means Hyperparameter Tuning Done!")
+
+#Isolation Forest
+#SOURCE: https://campus.datacamp.com/courses/anomaly-detection-in-python/isolation-forests-with-pyod?ex=9
+
+print("Best: %f using %s" % (gridResultKNN.best_score_, gridResultKNN.best_params_))
+means = gridResultKNN.cv_results_['mean_test_score']
+stds = gridResultKNN.cv_results_['std_test_score']
+params = gridResultKNN.cv_results_['params']
+for mean, stdev, param in zip(means, stds, params):
+    print("%f (%f) with: %r" % (mean, stdev, param))
+
+print("Isolation Forest Hyperparameter Tuning Done!")
+
+#Stochastic Greadient Descent
+#SOURCE: https://scikit-learn.org/stable/modules/sgd.html
+
+print("Best: %f using %s" % (gridResultKNN.best_score_, gridResultKNN.best_params_))
+means = gridResultKNN.cv_results_['mean_test_score']
+stds = gridResultKNN.cv_results_['std_test_score']
+params = gridResultKNN.cv_results_['params']
+for mean, stdev, param in zip(means, stds, params):
+    print("%f (%f) with: %r" % (mean, stdev, param))
+
+print("Stochastic Gradient Descent Hyperparameter Tuning Done!")
+
 #FINAL MODEL
 #EVALUATION
-
 #FEATURE IMPORTANCE
+#HYBRID MODEL
+
+#Testing if github is working on my pc test on 2
+#This is a final test to confirm that github is working
+#This is a final test to confirm that everything on github is working.
