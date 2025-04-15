@@ -280,11 +280,11 @@ def evaluationMetric (model, xTrain, yTrain, xTest, yTest):
 
     print ("Test Set")
     print(confusion_matrix(yTest, yPrediction))
-    print(classification_report(yTest, yPrediction, digits=5))
+    print(classification_report(yTest, yPrediction, digits=6))
     print()
     print("Train Set")
     print(confusion_matrix(yTrain, yTrainPrediction))
-    print(classification_report(yTrain, yTrainPrediction, digits=5))
+    print(classification_report(yTrain, yTrainPrediction, digits=6))
 
 #Logistic Regression model
 from sklearn.linear_model import LogisticRegression
