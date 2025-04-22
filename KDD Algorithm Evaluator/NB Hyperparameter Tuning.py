@@ -162,10 +162,10 @@ from  sklearn.model_selection import RepeatedStratifiedKFold
 #SOURCE (MAYBE): https://stackoverflow.com/questions/39828535/how-to-tune-gaussiannb
 from sklearn.naive_bayes import GaussianNB
 gnbModel = GaussianNB()
-varSmoothing = np.logspace(0, -9, num=100)
+gnbParameter = {'var_smoothing': np.logspace(0,-9,num=100)}
 
 gnbCV = RepeatedStratifiedKFold(n_splits=10, n_repeats=3, random_state=1)
-gridSearchNB = GridSearchCV(estimator=gnbModel, param_grid=varSmoothing, n_jobs=-1,cv=gnbCV, verbose=1, scoring='accuracy', error_score=0)
+gridSearchNB = GridSearchCV(estimator=gnbModel, param_grid=gnbParameter, n_jobs=-1,cv=gnbCV, verbose=1, scoring='accuracy', error_score=0)
 start = time()
 gridResultNB = gridSearchNB.fit(xTrain, yTrain)
 end = time()
