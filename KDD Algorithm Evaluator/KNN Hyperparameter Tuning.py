@@ -163,7 +163,7 @@ n_neighbors = range(1, 21)
 weights = ['uniform', 'distance']
 metric = ['euclidean','manhattan','minkowski']
 
-knnGrid = dict(n_neighbour=n_neighbour, weights=weights, metric=metric)
+knnGrid = dict(n_neighbors=n_neighbors, weights=weights, metric=metric)
 knnCV = RepeatedStratifiedKFold(n_splits=10, n_repeats=3, random_state=1)
 gridSearchKNN = GridSearchCV(estimator=knnModel, param_grid=knnGrid, n_jobs=-1, cv=knnCV, scoring='accuracy', error_score=0)
 start = time()
