@@ -163,7 +163,7 @@ max_depth = np.arange(1,30)
 min_samples_leaf = [5, 10, 20, 50, 100]
 criterion = ['gini', 'entropy']
 
-dtcGrid = dict(dtcModel=[dtcModel], min_samples_leaf=min_samples_leaf, criterion=criterion, max_depth=max_depth)
+dtcGrid = dict(estimator=dtcModel, min_samples_leaf=min_samples_leaf, criterion=criterion, max_depth=max_depth)
 dtcCV = RepeatedStratifiedKFold(n_splits=10, n_repeats=3, random_state=1)
 gridSearchDTC = GridSearchCV(estimator=dtcModel, param_grid=dtcGrid, n_jobs=-1, cv=dtcCV, scoring='accuracy', error_score=0)
 start = time()
