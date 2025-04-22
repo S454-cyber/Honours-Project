@@ -159,7 +159,7 @@ from  sklearn.model_selection import RepeatedStratifiedKFold
 #SOURCE: https://machinelearningmastery.com/hyperparameters-for-classification-machine-learning-algorithms/
 from sklearn.neighbors import KNeighborsClassifier
 knnModel = KNeighborsClassifier()
-n_neighbour = range(1, 21)
+n_neighbors = range(1, 21)
 weights = ['uniform', 'distance']
 metric = ['euclidean','manhattan','minkowski']
 
