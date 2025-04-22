@@ -159,11 +159,11 @@ from  sklearn.model_selection import RepeatedStratifiedKFold
 #SOURCE: https://machinelearningmastery.com/hyperparameters-for-classification-machine-learning-algorithms/
 from sklearn.neighbors import KNeighborsClassifier
 knnModel = KNeighborsClassifier()
-nNeighbour = range(1, 21)
-knnWeights = ['uniform', 'distance']
-knnMetric = ['euclidean','manhattan','minkowski']
+n_neighbour = range(1, 21)
+weights = ['uniform', 'distance']
+metric = ['euclidean','manhattan','minkowski']
 
-knnGrid = dict(nNeighbour=nNeighbour, knnWeights=knnWeights, knnMetric=knnMetric)
+knnGrid = dict(n_neighbour=n_neighbour, weights=weights, metric=metric)
 knnCV = RepeatedStratifiedKFold(n_splits=10, n_repeats=3, random_state=1)
 gridSearchKNN = GridSearchCV(estimator=knnModel, param_grid=knnGrid, n_jobs=-1, cv=knnCV, scoring='accuracy', error_score=0)
 start = time()
