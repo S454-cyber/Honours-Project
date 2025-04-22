@@ -157,8 +157,8 @@ from  sklearn.model_selection import RepeatedStratifiedKFold
 
 #Decision Tree Classifier (Check Parameters)
 #SOURCE: https://www.kaggle.com/code/gauravduttakiit/hyperparameter-tuning-in-decision-trees
-from sklearn import tree
-dtcModel = tree.DecisionTreeClassifier() 
+from sklearn.tree import DecisionTreeClassifier
+dtcModel = DecisionTreeClassifier() 
 dtcMaxDepth = np.arange(1,30)
 dtcMinSamplesLeaf = [5, 10, 20, 50, 100]
 dtcCriterion = ['gini', 'entropy']
