@@ -159,18 +159,18 @@ from  sklearn.model_selection import RepeatedStratifiedKFold
 #K-Means (Check Parameters)
 #SOURCE: https://www.kaggle.com/code/diegohurtadoo/customer-segmentation-kmeans-parameter-tuning#3.4--KMeans-
 from sklearn.cluster import KMeans
-nClusters = range(1,10)
+n_clusters = range(1,10)
 init = ['k-means++', 'random']
-nInit = [5, 10, 15]
-maxIter = [100, 200, 300, 400, 500]
+n_init = [5, 10, 15]
+max_iter = [100, 200, 300, 400, 500]
 tol = [0.0001, 0.001, 0.01]
 algorithm = ['auto', 'full', 'elkan', 'lloyd']
-randomState = [0, 42, 100]
+random_state = [0, 42, 100]
 
 kmCV = RepeatedStratifiedKFold(n_splits=10, n_repeats=3, random_state=1)
 
 kmModel = KMeans(random_state=42)
-kmGrid = dict(nClusters=nClusters, init=init, nInit=nInit, maxIter=maxIter, tol=tol, algorithm=algorithm, randomState=randomState)
+kmGrid = dict(n_clusters=n_clusters, init=init, n_init=n_init, max_iter=max_iter, tol=tol, algorithm=algorithm, random_state=random_state)
 gridSearchKM = GridSearchCV(estimator=kmModel, param_grid=kmGrid, n_jobs=-1, cv=kmCV, verbose=1, scoring='accuracy', error_score=0)
 start = time()
 gridResultKM = gridSearchKM.fit(xTrain, yTrain)
