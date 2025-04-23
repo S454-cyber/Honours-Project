@@ -160,16 +160,16 @@ from  sklearn.model_selection import RepeatedStratifiedKFold
 #SOURCE: https://stackoverflow.com/questions/56078831/isolation-forest-parameter-tuning-with-gridsearchcv
 #https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.IsolationForest.html
 from sklearn.ensemble import IsolationForest
-nEstimators = list(range(100, 800, 5))
-maxSamples = list(range(100, 500, 5))
+n_estimators = list(range(100, 800, 5))
+max_samples = list(range(100, 500, 5))
 contamination = [0.1, 0.2, 0.3, 0.4, 0.5]
-maxFeatures = [5, 10, 15]
+max_features = [5, 10, 15]
 bootstrap = [True, False]
-nJobs = [5, 10, 20, 30]
+n_jobs = [5, 10, 20, 30]
 
 ifCV = RepeatedStratifiedKFold(n_splits=10, n_repeats=3, random_state=1)
 isolationForest = IsolationForest(random_state=42)
-ifGrid = dict(nEstimators=nEstimators, maxSamples=maxSamples, contamination=contamination, maxFeatures=maxFeatures, bootstrap=bootstrap, nJobs=nJobs)
+ifGrid = dict(n_estimators=n_estimators, max_samples=max_samples, contamination=contamination, max_features=max_features, bootstrap=bootstrap, n_jobs=n_jobs)
 gridSearchIF = GridSearchCV(estimator=isolationForest, param_grid=ifGrid, n_jobs=-1, cv=ifCV, verbose=1, scoring='accuracy', error_score=0)
 start = time()
 gridResultIF = gridSearchIF.fit(xTrain, yTrain)
