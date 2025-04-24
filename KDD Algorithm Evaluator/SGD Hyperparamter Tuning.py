@@ -160,11 +160,11 @@ from  sklearn.model_selection import RepeatedStratifiedKFold
 from sklearn.linear_model import SGDClassifier
 loss = ['hinge','modified_huber','log_loss']
 penalty = ['l1','l2','elasticent']
-maxIter = 5
+max_iter = [5]
 
 sgdCV = RepeatedStratifiedKFold(n_splits=10, n_repeats=3, random_state=1)
 sgdModel = SGDClassifier()
-sgdGrid = dict(loss=loss, penalty=penalty, maxIter=maxIter)
+sgdGrid = dict(loss=loss, penalty=penalty, max_iter=max_iter)
 gridSearchSGD = GridSearchCV(estimator=sgdModel, param_grid=sgdGrid, n_jobs=-1, cv=sgdCV, verbose=1, scoring='accuracy', error_score=0)
 start = time()
 gridResultSGD = gridSearchSGD.fit(xTrain, yTrain)
